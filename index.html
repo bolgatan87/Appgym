@@ -88,7 +88,6 @@ let selectedDate=today();
 const save=()=>{try{localStorage.setItem('f5',JSON.stringify(S))}catch(e){}};
 const toast=m=>{const t=q('#toast');t.textContent=m;t.classList.add('on');clearTimeout(toast.t);toast.t=setTimeout(()=>t.classList.remove('on'),1800)};
 
-/* Sonido sutil para el temporizador */
 const playBeep=()=>{
  try{const ctx=new(window.AudioContext||window.webkitAudioContext)();const osc=ctx.createOscillator();const g=ctx.createGain();
  osc.type='sine';osc.frequency.value=587.33;g.gain.setValueAtTime(0.1,ctx.currentTime);
@@ -96,7 +95,6 @@ const playBeep=()=>{
  osc.connect(g);g.connect(ctx.destination);osc.start();osc.stop(ctx.currentTime+0.5)}catch(e){}
 };
 
-/* Músculos: [nombre, zonas [segmento, desde, hasta, grosor]] */
 const MU={
 pcs:['Pectoral superior (clavicular)',[['T',.78,.97,9,10]]],pcm:['Pectoral medio (esternal)',[['T',.6,.85,10,11]]],pci:['Pectoral inferior',[['T',.45,.68,9,11]]],
 dor:['Dorsal ancho',[['T',.3,.75,13,-8]]],rom:['Romboides',[['T',.6,.85,7,-13]]],trm:['Trapecio medio',[['T',.82,1.02,8,-12]]],ere:['Erectores lumbares',[['T',0,.4,8,-13]]],
@@ -181,11 +179,12 @@ const pose=(e,ph)=>[0,1,2,3,4,5].map(i=>{const p=e[5][i]??90,u=e[6][i]??90;retur
 function setup(e){const p=[0,1].flatMap(k=>{const f=fig(pose(e,k),e[3]);return f.S.flatMap(s=>[s[1][0]-f.ax,s[2][0]-f.ax])}),c=eq(cur.id).c;if(c)p.push(c[0],c[0]+c[2]*22);cur.ox=150-(Math.min(...p)+Math.max(...p))/2}
 
 const ink='currentColor';
-const el=(cx,cy,rx,ry,r,c,fo,cl)=>{let d='';[-.5,0,.5].forEach(y=>{const x=(rx*Math.sqrt(1-y*y)*.9).toFixed(1);d+=`M-${x} ${(y*ry).toFixed(1)}H${x}`});
- return`<g transform="translate(${cx} ${cy}) rotate(${r})"${cl?` class="${cl}"`:''}><ellipse rx="${rx}" ry="${ry}" fill="${c}" fill-opacity="${fo}" stroke="${ink}" stroke-opacity="${c=='none'?.3:.85}" stroke-width=".7"/><path d="${d}" fill="none" stroke="${ink}" stroke-width=".4" opacity="${c=='none'?.2:.4}"/></g>`};
+/* Estilo de dibujo anatómico refinado con sombreado de cross-hatching */
+const el=(cx,cy,rx,ry,r,c,fo,cl)=>{let d='';[-.6,-.2,.2,.6].forEach((y,idx)=>{const x=(rx*Math.sqrt(1-y*y)*.95).toFixed(1);const slant=idx%2==0?2:-2;d+=`M-${x} ${(y*ry).toFixed(1)}L${Number(x)+slant} ${(y*ry+4).toFixed(1)}`});
+ return`<g transform="translate(${cx} ${cy}) rotate(${r})"${cl?` class="${cl}"`:''}><ellipse rx="${rx}" ry="${ry}" fill="${c}" fill-opacity="${fo}" stroke="${ink}" stroke-opacity="${c=='none'?.5:1}" stroke-width="1.2"/><path d="${d}" fill="none" stroke="${ink}" stroke-width=".45" opacity="${c=='none'?.25:.55}"/></g>`};
 
-const MF={pcs:[[46,58,10,4.5,-15]],pcm:[[46,67,11,5,-5]],pci:[[46,76,10,4.5,8]],da:[[37,57,5,8,10]],dl:[[31,60,5,10,12]],bl:[[25,78,3.2,12,8]],bc:[[29.5,78,3.2,12,8]],br:[[27,92,3,6,8]],bq:[[19,113,3.5,11,10]],af:[[23,121,3.5,14,10]],rec:[[54.5,90,5,4.5,0],[54.5,99,5,4.5,0],[54.5,108,5,4.5,0]],obl:[[45,100,4.5,13,8]],tva:[[56,114,7,3,0]],rf:[[51,165,4.5,22,2]],vl:[[44.5,170,4.5,22,4]],vm:[[53.5,188,4,11,-3]]};
-const MB={trm:[[54,58,10,9,25]],rom:[[53,71,6,7,-10]],dor:[[46,88,9,16,22]],ere:[[56,113,3.5,13,0]],gm:[[51,138,10,9,0]],dp:[[33,58,6,8,12]],dl:[[28,62,4,8,12]],tl:[[28,76,4.2,13,8]],tlt:[[24,80,3.5,12,8]],tm:[[30,90,3.2,7,8]],ae:[[20,118,4,14,10]],bfe:[[45,172,4.5,22,3]],sem:[[52,172,4.5,22,-2]],gem:[[43.5,228,3.8,12,0],[50.5,228,3.8,12,0]],sol:[[47,244,3.5,8,0]]};
+const MF={pcs:[[46,58,11,5,-15]],pcm:[[46,67,12,5.5,-5]],pci:[[46,76,11,5,8]],da:[[37,57,5.5,8.5,10]],dl:[[31,60,5.5,10.5,12]],bl:[[25,78,3.5,12.5,8]],bc:[[29.5,78,3.5,12.5,8]],br:[[27,92,3.2,6.5,8]],bq:[[19,113,3.8,11.5,10]],af:[[23,121,3.8,14.5,10]],rec:[[54.5,90,5.2,4.8,0],[54.5,99,5.2,4.8,0],[54.5,108,5.2,4.8,0]],obl:[[45,100,4.8,13.5,8]],tva:[[56,114,7.2,3.2,0]],rf:[[51,165,4.8,22.5,2]],vl:[[44.5,170,4.8,22.5,4]],vm:[[53.5,188,4.2,11.5,-3]]};
+const MB={trm:[[54,58,10.5,9.5,25]],rom:[[53,71,6.5,7.5,-10]],dor:[[46,88,9.5,16.5,22]],ere:[[56,113,3.8,13.5,0]],gm:[[51,138,10.5,9.5,0]],dp:[[33,58,6.5,8.5,12]],dl:[[28,62,4.2,8.5,12]],tl:[[28,76,4.5,13.5,8]],tlt:[[24,80,3.8,12.5,8]],tm:[[30,90,3.5,7.5,8]],ae:[[20,118,4.2,14.5,10]],bfe:[[45,172,4.8,22.5,3]],sem:[[52,172,4.8,22.5,-2]],gem:[[43.5,228,4,12.5,0],[50.5,228,4,12.5,0]],sol:[[47,244,3.8,8.5,0]]};
 
 function drawMap(){
  const [P1,P2]=E[cur.id][1].split(';').map(s=>(s||'').split(' ').filter(Boolean)),sel=cur.sel,
@@ -193,9 +192,9 @@ function drawMap(){
  view=(M,x0,lb,bk)=>{
   const A=cap(33,52,22,102,15,11)+cap(22,102,12,150,11,7)+cap(12,150,10,158,8,7)+cap(51,142,47,206,25,16)+cap(47,206,47,262,15,9)+'<ellipse cx="44" cy="271" rx="8" ry="4.5"/>'+[0,1,2,3].map(i=>{const c=i-1.5;return`<path fill="none" d="M${10+c*2} 158L${6+c*3.2} ${172-Math.abs(c)*2}"/>`}).join('')+'<path fill="none" d="M15 152L20 162"/>';
   let ms='';
-  Object.keys(M).forEach(id=>{const p=(P1||[]).includes(id),s=(P2||[]).includes(id),fo=sel?(id==sel?.85:(p||s?.18:0)):(p?.75:s?.6:0),c=p?'#ff3d6e':s?'#ffb02e':'none';
+  Object.keys(M).forEach(id=>{const p=(P1||[]).includes(id),s=(P2||[]).includes(id),fo=sel?(id==sel?.9:(p||s?.2:0)):(p?.8:s?.65:0),c=p?'#ff3d6e':s?'#ffb02e':'none';
    M[id].forEach(z=>ms+=el(z[0],z[1],z[2],z[3],z[4],c,fo,p&&(!sel||id==sel)?'pk':''))});
-  return`<g transform="translate(${x0} 0)"><g fill="transparent" stroke="${ink}" stroke-width="1" stroke-linejoin="round">${A}<g transform="translate(120 0) scale(-1 1)">${A}</g><path d="M34 48Q60 40 86 48L81 100Q77 118 75 122L81 144H39L45 122Q43 118 39 100Z"/><path d="M55 28h10v16H55z"/><ellipse cx="60" cy="17" rx="11" ry="14" fill="${bk?'var(--mu)':'transparent'}"/></g>${ms}<g transform="translate(120 0) scale(-1 1)">${ms}</g>${bk?[...Array(16)].map((_,i)=>`<circle cx="60" cy="${46+i*5.2}" r="1.1" fill="${ink}"/>`).join(''):''}<text x="60" y="290" text-anchor="middle" font-size="10" fill="var(--mu)">${lb}</text></g>`};
+  return`<g transform="translate(${x0} 0)"><g fill="transparent" stroke="${ink}" stroke-width="1.2" stroke-linejoin="round">${A}<g transform="translate(120 0) scale(-1 1)">${A}</g><path d="M34 48Q60 40 86 48L81 100Q77 118 75 122L81 144H39L45 122Q43 118 39 100Z"/><path d="M55 28h10v16H55z"/><ellipse cx="60" cy="17" rx="11" ry="14" fill="${bk?'var(--mu)':'transparent'}"/></g>${ms}<g transform="translate(120 0) scale(-1 1)">${ms}</g>${bk?[...Array(16)].map((_,i)=>`<circle cx="60" cy="${46+i*5.2}" r="1.1" fill="${ink}"/>`).join(''):''}<text x="60" y="290" text-anchor="middle" font-size="10" font-weight="700" fill="var(--mu)">${lb}</text></g>`};
  q('#mp').innerHTML=view(MF,0,'Frente',0)+view(MB,130,'Espalda',1);
 }
 
@@ -205,7 +204,7 @@ function draw(ts){
  T=p=>[+(p[0]-f.ax+ox).toFixed(1),+(p[1]+ty).toFixed(1)],
  ln=(p,r,w,c,o=1)=>`<line x1="${p[0]}" y1="${p[1]}" x2="${r[0]}" y2="${r[1]}" stroke="${c}" stroke-width="${w}" stroke-linecap="round" opacity="${o}"/>`,
  ci=(p,r,c)=>`<circle cx="${p[0]}" cy="${p[1]}" r="${r}" fill="${c}"/>`,
- tq=(p,r,w1,w2,c)=>{const dx=r[0]-p[0],dy=r[1]-p[1],l=Math.hypot(dx,dy)||1,x=-dy/l/2,y=dx/l/2,g=(b,w,s)=>(b[0]+x*w*s).toFixed(1)+' '+(b[1]+y*w*s).toFixed(1);return`<path d="M${g(p,w1,1)}L${g(r,w2,1)}L${g(r,w2,-1)}L${g(p,w1,-1)}Z" fill="${c}"/>`+ci(p,w1/2,c)+ci(r,w2/2,c)},
+ tq=(p,r,w1,w2,c)=>{const dx=r[0]-p[0],dy=r[1]-p[1],l=Math.hypot(dx,dy)||1,x=-dy/l/2,y=dx/l/2,g=(b,w,s)=>(b[0]+x*w*s).toFixed(1)+' '+(b[1]+y*w*s).toFixed(1);return`<path d="M${g(p,w1,1)}L${g(r,w2,1)}L${g(r,w2,-1)}L${g(p,w1,-1)}Z" fill="${c}" stroke="${ink}" stroke-width="0.8"/>`+ci(p,w1/2,c)+ci(r,w2/2,c)},
  tp=(p,r,w1,w2,c)=>tq(p,r,w1+2,w2+2,ink)+tq(p,r,w1,w2,c),lo=(p,r,w,c)=>ln(p,r,w+1.8,ink)+ln(p,r,w,c),co=(p,r,c)=>ci(p,r+.9,ink)+ci(p,r,c),
  hs=f.W.map(([w,an])=>{const p=T(w),d=[Math.sin(an*R),Math.cos(an*R)];return{p,d,n:[-d[1],d[0]],F:[p[0]+d[0]*9,p[1]+d[1]*9]}}),hn=hs[0].F;
  let h='<line x1="10" y1="234" x2="290" y2="234" stroke="var(--ln)" stroke-width="2"/>',rope='';
@@ -232,7 +231,7 @@ function draw(ts){
    cx=(A[0]+dx*m-dy/l*d).toFixed(1),cy=(A[1]+dy*m+dx/l*d).toFixed(1);
    o+=el(cx,cy,(l*(t1-t0)/2).toFixed(1),th/2,(Math.atan2(dy,dx)/R).toFixed(1),c,fo,'')})});return o};
  Object.keys(MU).forEach(id=>h+=mz(id,'none',0));
- (P2||[]).forEach(id=>h+=mz(id,'#ffb02e',sel?(id==sel?.85:.12):.6,.9));
+ (P2||[]).forEach(id=>h+=mz(id,'#ffb02e',sel?(id==sel?.9:.12):.65,.9));
  (P1||[]).forEach(id=>h+=mz(id,'#ff3d6e',sel?(id==sel?.95:.12):pu,1));
  if(sel&&![...(P1||[]),...(P2||[])].includes(sel))h+=mz(sel,ink,.5);
 
@@ -269,7 +268,7 @@ fc:['o','Manos bajo los hombros y cuerpo recto de cabeza a talones|Abdomen y gl�
 cz:['s','Pies al ancho de cadera, rodillas suaves, tronco erguido|Hombros atrás y abajo; abdomen firme|Codos pegados al cuerpo y quietos','Supino (palmas arriba), ancho de hombros; en la barra Z apoya las manos en las curvas.','Balancear la espalda o adelantar los codos al subir la barra.'],
 ci:['s','Banco entre 45° y 60°, espalda y cabeza apoyadas|Brazos colgando por detrás del tronco|Pies planos; hombros sin encoger','Supino (palmas al frente), pulgar rodeando; muñeca recta.','Despegar la espalda del banco o encoger los hombros al subir.'],
 cm:['n','Pies al ancho de cadera, rodillas suaves, torso erguido|Hombros atrás; abdomen firme|Codos pegados al cuerpo','Neutro: la mano rodea el mango como en un apretón; pulgar sobre el mango.','Adelantar el codo o girar la muñeca al subir.'],
-cv:['p','Pies al ancho de cadera, rodillas suaves, torso erguido|Codos pegados a las costillas|Cuello relajado y mirada al frente','Prono (palmas abajo), ancho de hombros, pulgar rodeando; muñeca recta, sin doblarla hacia atrás.','Cargar demasiado peso: la muñeca se dobla y se lastima el el codo.'],
+cv:['p','Pies al ancho de cadera, rodillas suaves, torso erguido|Codos pegados a las costillas|Cuello relajado y mirada al frente','Prono (palmas abajo), ancho de hombros, pulgar rodeando; muñeca recta, sin doblarla hacia atrás.','Cargar demasiado peso: la muñeca se dobla y se lastima el codo.'],
 fm:['s','Sentado con la espalda recta y los antebrazos sobre los muslos|Muñecas fuera de la rodilla, palmas arriba|Pies planos en el piso','Palmas arriba; deja rodar la mancuerna hasta las yemas y súbela cerrando la mano.','Levantar el antebrazo del muslo o usar demasiado peso.'],
 em:['p','Sentado con la espalda recta y los antebrazos sobre los muslos|Muñecas fuera de la rodilla, palmas abajo|Pies planos en el piso','Palmas abajo; mancuerna ligera y movimiento solo de la muñeca.','Levantar el antebrazo del muslo o usar demasiado peso.'],
 pp:['o','Espalda y glúteos pegados al respaldo|Pies al ancho de hombros, puntas unos 15° hacia afuera|Rodillas siguen la línea de los pies','Manos en las asas laterales; cuello y hombros relajados.','Despegar la cadera del asiento (se redondea la zona lumbar) o bloquear las rodillas.'],
@@ -287,7 +286,7 @@ pj:['n','Pecho apoyado y espalda recta|Hombros lejos de las orejas|Codos ligeram
 jp:['p','Muslos firmes bajo el rodillo, espalda recta con inclinación atrás de unos 10°|Pecho arriba, hombros abajo|Jala hacia la parte alta del pecho','Prono, algo más ancho que los hombros; pulgar rodeando la barra.','Jalar detrás de la nuca o balancear el torso.'],
 rs:['n','Rodillas ligeramente flexionadas, tronco casi vertical|Espalda recta (columna neutra) y pecho abierto|Hombros abajo; jala los codos hacia atrás','Asa neutra con los pulgares envolviendo; antebrazos paralelos.','Encorvar la espalda al estirar o balancearte hacia atrás al jalar.'],
 rp:['n','Pecho apoyado en el banco inclinado|Cuello alineado con la columna, pies firmes|Jala los codos hacia atrás','Mancuernas con agarre neutro y brazos colgando.','Despegar el pecho del banco o usar impulso.'],
-xl:['o','Caderas apoyadas en la almohadilla y pies fijos|Cuerpo alignedo: sube hasta la línea recta|Cuello neutro y brazos cruzados','Brazos cruzados sobre el pecho.','Hiperextender la espalda al subir.']};
+xl:['o','Caderas apoyadas en la almohadilla y pies fijos|Cuerpo alineado: sube hasta la línea recta|Cuello neutro y brazos cruzados','Brazos cruzados sobre el pecho.','Hiperextender la espalda al subir.']};
 
 function gripSvg(c,bt){
  if(c=='o')return`<svg viewBox="-40 -40 80 80"><g fill="var(--card)" stroke="${ink}" stroke-width="1.2" stroke-linejoin="round"><rect x="-14" y="-4" width="28" height="30" rx="9"/>${[-12,-4,4,12].map((x,i)=>`<rect x="${x-3.5}" y="${-32+Math.abs(i-1.5)*3.5}" width="7" height="${30-Math.abs(i-1.5)*3.5}" rx="3.5"/>`).join('')}<rect x="-27" y="2" width="7" height="22" rx="3.5" transform="rotate(25 -23 4)"/></g></svg>`;
@@ -299,8 +298,8 @@ function gripSvg(c,bt){
  return`<svg viewBox="-100 -48 200 96">${bg}<g transform="${rot}"><line x1="-100" y1="3" x2="-${K-1}" y2="0" stroke="${ink}" stroke-width="26" stroke-linecap="round"/><line x1="-100" y1="3" x2="-${K-1}" y2="0" stroke="var(--card)" stroke-width="24" stroke-linecap="round"/><path d="M-52 -9v20" stroke="${ink}" stroke-width="1"/><circle r="${rb}" fill="var(--mu)" stroke="${ink}"/>${[3,2,1,0].map(fing).join('')}${[-125,-50,15].map(a=>`<line x1="${P(a,K-4).replace(' ',',').split(',')[0]}" y1="${P(a,K-4).split(' ')[1]}" x2="${P(a,K+4).split(',')[0]}" y2="${P(a,K+4).split(' ')[1]}" stroke="${ink}" stroke-width=".8"/>`).join('')}${arc(170,30,11.5,ink)+arc(170,30,9.5,'var(--card)')}</g></svg>`;
 }
 
-function feet=([w,an])=>{const g=[18,34,52,70][w],ft=(x,s)=>`<g transform="translate(${80+x} 36) rotate(${s*an})"><path d="M0-20C7-20 9-8 8 6C7 16 5 20 0 20C-5 20 -7 16 -8 6C-9-8-7-20 0-20Z" fill="var(--card)" stroke="${ink}" stroke-width="1.3"/></g>`;
- return`<svg viewBox="0 0 160 76"><line x1="${80-g/2}" y1="36" x2="${80+g/2}" y2="36" stroke="#ff3d6e" stroke-dasharray="3 2"/>${ft(-g/2,-1)}${ft(g/2,1)}<text x="80" y="74" text-anchor="middle" font-size="8.5" fill="var(--mu)">${['Pies juntos','Ancho de cadera','Ancho de hombros','Más anchos'][w]}${an?' · puntas '+an+'°':' · al frente'}</text></svg>`};
+function feet([w,an]){const g=[18,34,52,70][w],ft=(x,s)=>`<g transform="translate(${80+x} 36) rotate(${s*an})"><path d="M0-20C7-20 9-8 8 6C7 16 5 20 0 20C-5 20 -7 16 -8 6C-9-8-7-20 0-20Z" fill="var(--card)" stroke="${ink}" stroke-width="1.3"/></g>`;
+ return`<svg viewBox="0 0 160 76"><line x1="${80-g/2}" y1="36" x2="${80+g/2}" y2="36" stroke="#ff3d6e" stroke-dasharray="3 2"/>${ft(-g/2,-1)}${ft(g/2,1)}<text x="80" y="74" text-anchor="middle" font-size="8.5" fill="var(--mu)">${['Pies juntos','Ancho de cadera','Ancho de hombros','Más anchos'][w]}${an?' · puntas '+an+'°':' · al frente'}</text></svg>`}
 
 function cards(id){const x=X[id],st=ST[id],t=eq(id).t,bt=t.includes('W')?'W':t.includes('w')?'w':t.includes('r')?'r':'h';
  return`<div class="cd"><h3>Cómo colocarte</h3>${st?feet(st):''}<ul>${x[1].split('|').map(l=>`<li>${l}</li>`).join('')}</ul></div>
@@ -310,7 +309,7 @@ function cards(id){const x=X[id],st=ST[id],t=eq(id).t,bt=t.includes('W')?'W':t.i
 function openEx(id){
  const e=E[id],r=D[di].x.find(x=>x[0]==id),T=selectedDate,sec=/s$/.test(r[2]),td=S.l.find(l=>l.d==T&&l.e==id),last=hist(id).find(l=>l.d!=T);
  cur={id,sec,last,sel:null};setup(e);
- const row=(i,v)=>`<div class="r"><span>${i+1}</span><input type="number" inputmode="decimal" step=".5" min="0" placeholder="${last&&last.s[i]?last.s[i][0]:'kg'}" value="${v?v[0]:''}"><input type="number" inputmode="numeric" min="0" placeholder="${last&&last.s[i]?last.s[i][1]:(sec?'seg':'reps')}" value="${v?v[1]:''}}"></div>`;
+ const row=(i,v)=>`<div class="r"><span>${i+1}</span><input type="number" inputmode="decimal" step=".5" min="0" placeholder="${last&&last.s[i]?last.s[i][0]:'kg'}" value="${v?v[0]:''}"><input type="number" inputmode="numeric" min="0" placeholder="${last&&last.s[i]?last.s[i][1]:(sec?'seg':'reps')}" value="${v?v[1]:''}"></div>`;
  const n=Math.max(r[1],td?td.s.length:0);
  q('#sheet').innerHTML=`<div class="w"><div class="sb"><button id="bk">‹ Volver</button><button id="tm">Descanso 90 s</button></div>
  <h2>${e[0]}</h2><p class="sub">${r[1]} series × ${r[2]}${sec||/lado/.test(r[2])?'':' reps'}</p>
