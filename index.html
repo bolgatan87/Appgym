@@ -9,11 +9,11 @@
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&display=swap" rel="stylesheet">
 <style>
 :root{
-  --bg:#eceff4;--ink:#0e1b2e;--mu:#5d6b82;--ln:#d3dae5;--bl:#2347ff;--hi:#ff3d6e;--ok:#0f9d7a;--fig:#eef2f7;--card:#fff;
+  --bg:#eceff4;--ink:#0e1b2e;--mu:#5d6b82;--ln:#d3dae5;--bl:#2347ff;--hi:#ff3d6e;--ok:#0f9d7a;--fig:#eef2f7;--card:#fff;--skin:#e2e8f0;--skin-sh:#cbd5e1;--eq-metal:#94a3b8;--eq-dark:#475569;
 }
 @media (prefers-color-scheme: dark){
   :root{
-    --bg:#0b1118;--ink:#f0f4f8;--mu:#94a3b8;--ln:#1e293b;--bl:#3b82f6;--hi:#fb7185;--ok:#10b981;--fig:#131d2b;--card:#111827;
+    --bg:#0b1118;--ink:#f0f4f8;--mu:#94a3b8;--ln:#1e293b;--bl:#3b82f6;--hi:#fb7185;--ok:#10b981;--fig:#131d2b;--card:#111827;--skin:#334155;--skin-sh:#1e293b;--eq-metal:#64748b;--eq-dark:#0f172a;
   }
 }
 *{box-sizing:border-box;margin:0}
@@ -39,19 +39,19 @@ header{padding:calc(20px + env(safe-area-inset-top,0px)) 0 4px}
 @keyframes up{from{transform:translateY(24px);opacity:0}}
 .sb{display:flex;justify-content:space-between;align-items:center;padding:calc(12px + env(safe-area-inset-top,0px)) 0 12px}
 .sb button{padding:9px 14px;border-radius:10px;background:var(--card);border:1px solid var(--ln);font-weight:600}
-.fc{background:var(--fig);border-radius:20px;margin:14px 0 10px;padding:6px 10px 12px;position:relative}
+.fc{background:var(--fig);border-radius:20px;margin:14px 0 10px;padding:10px;position:relative;box-shadow:0 4px 12px rgba(0,0,0,0.05)}
 .fc svg{display:block;width:100%;height:auto}
-.ctl{display:flex;gap:12px;align-items:center;color:var(--mu);font-size:13px}
-.ctl button{color:var(--ink);padding:6px 12px;border-radius:8px;border:1px solid var(--ln);background:var(--card)}
+.ctl{display:flex;gap:12px;align-items:center;color:var(--mu);font-size:13px;margin-top:6px}
+.ctl button{color:var(--ink);padding:6px 12px;border-radius:8px;border:1px solid var(--ln);background:var(--card);font-weight:600}
 .ctl input{flex:1;accent-color:var(--hi)}
 .chips{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0}
 .chips span{display:flex;align-items:center;gap:7px;background:var(--card);border:1px solid var(--ln);padding:6px 12px;border-radius:99px;font-weight:600;font-size:14px;cursor:pointer}
 .chips span.s:before{background:#ffb02e!important}
 .chips span.on{outline:2px solid var(--ink)}
 .chips span:before{content:"";width:9px;height:9px;border-radius:50%;background:var(--hi)}
-.mp{padding:10px 8px 4px}.pk{animation:pk 1.1s ease-in-out infinite alternate}@keyframes pk{to{opacity:.5}}
+.mp{padding:10px 8px 4px}.pk{animation:pk 1.1s ease-in-out infinite alternate}@keyframes pk{to{opacity:.4}}
 .cd{background:var(--card);border:1px solid var(--ln);border-radius:14px;padding:12px 16px;margin:12px 0}.cd h3{margin:0 0 8px;font-size:19px}.cd ul{margin:6px 0 0 18px}.cd li{margin:0 0 6px}.cd svg{display:block;margin:0 auto;width:100%;max-width:260px}
-.bad{border-color:#f0b4bf;background:rgba(255,61,110,0.05)}.ang{font-size:13px;color:var(--mu);margin:2px 2px 10px}
+.bad{border-color:#f0b4bf;background:rgba(255,61,110,0.05)}.ang{font-size:13px;color:var(--mu);margin:4px 2px 10px;font-weight:600}
 .tip{background:var(--card);border-left:4px solid var(--bl);padding:12px 14px;border-radius:4px 12px 12px 4px;margin:12px 0}
 .r,.rh{display:grid;grid-template-columns:44px 1fr 1fr;gap:8px;align-items:center;margin-bottom:8px}
 .rh{color:var(--mu);font-size:13px}.r span{font-weight:800;font-size:20px;font-stretch:75%;text-align:center}
@@ -96,17 +96,17 @@ const playBeep=()=>{
 };
 
 const MU={
-pcs:['Pectoral superior (clavicular)',[['T',.78,.97,9,10]]],pcm:['Pectoral medio (esternal)',[['T',.6,.85,10,11]]],pci:['Pectoral inferior',[['T',.45,.68,9,11]]],
-dor:['Dorsal ancho',[['T',.3,.75,13,-8]]],rom:['Romboides',[['T',.6,.85,7,-13]]],trm:['Trapecio medio',[['T',.82,1.02,8,-12]]],ere:['Erectores lumbares',[['T',0,.4,8,-13]]],
-rec:['Recto abdominal',[['T',.1,.55,9,13]]],obl:['Oblicuos',[['T',.12,.5,9,5]]],tva:['Transverso abdominal',[['T',.12,.45,6,9]]],
-gm:['Glúteo mayor',[['Th',0,.4,16,-9],['T',0,.12,12,-10]]],
-da:['Deltoides anterior',[['U',0,.42,11,5]]],dl:['Deltoides lateral',[['U',0,.45,12,0]]],dp:['Deltoides posterior',[['U',0,.42,11,-5]]],
-bl:['Bíceps (cabeza larga)',[['U',.22,.85,6,2]]],bc:['Bíceps (cabeza corta)',[['U',.25,.88,6,5]]],br:['Braquial',[['U',.5,.97,5,1]]],
-tl:['Tríceps (cabeza larga)',[['U',.18,.8,7,-5]]],tlt:['Tríceps (cabeza lateral)',[['U',.3,.92,6,-2.5]]],tm:['Tríceps (cabeza medial)',[['U',.5,.97,5,-.5]]],
-bq:['Braquiorradial',[['F',0,.5,6,3]]],af:['Flexores del antebrazo',[['F',.05,.75,6,2]]],ae:['Extensores del antebrazo',[['F',.05,.75,6,-3]]],
-rf:['Recto femoral',[['Th',.15,.85,8,8]]],vl:['Vasto lateral',[['Th',.3,.97,9,3]]],vm:['Vasto medial',[['Th',.55,.98,8,8]]],
-bfe:['Bíceps femoral',[['Th',.15,.92,7,-8]]],sem:['Semitendinoso / semimembranoso',[['Th',.15,.85,7,-4]]],
-gem:['Gemelos',[['Sh',.05,.55,10,-4]]],sol:['Sóleo',[['Sh',.35,.85,7,-2]]]};
+pcs:['Pectoral superior (clavicular)',[['T',.78,.97,11,10]]],pcm:['Pectoral medio (esternal)',[['T',.6,.85,12,11]]],pci:['Pectoral inferior',[['T',.45,.68,11,11]]],
+dor:['Dorsal ancho',[['T',.3,.75,14,-8]]],rom:['Romboides',[['T',.6,.85,8,-13]]],trm:['Trapecio medio',[['T',.82,1.02,9,-12]]],ere:['Erectores lumbares',[['T',0,.4,9,-13]]],
+rec:['Recto abdominal',[['T',.1,.55,10,13]]],obl:['Oblicuos',[['T',.12,.5,10,5]]],tva:['Transverso abdominal',[['T',.12,.45,7,9]]],
+gm:['Glúteo mayor',[['Th',0,.4,17,-9],['T',0,.12,13,-10]]],
+da:['Deltoides anterior',[['U',0,.42,12,5]]],dl:['Deltoides lateral',[['U',0,.45,13,0]]],dp:['Deltoides posterior',[['U',0,.42,12,-5]]],
+bl:['Bíceps (cabeza larga)',[['U',.22,.85,7,2]]],bc:['Bíceps (cabeza corta)',[['U',.25,.88,7,5]]],br:['Braquial',[['U',.5,.97,6,1]]],
+tl:['Tríceps (cabeza larga)',[['U',.18,.8,8,-5]]],tlt:['Tríceps (cabeza lateral)',[['U',.3,.92,7,-2.5]]],tm:['Tríceps (cabeza medial)',[['U',.5,.97,6,-.5]]],
+bq:['Braquiorradial',[['F',0,.5,7,3]]],af:['Flexores del antebrazo',[['F',.05,.75,7,2]]],ae:['Extensores del antebrazo',[['F',.05,.75,7,-3]]],
+rf:['Recto femoral',[['Th',.15,.85,9,8]]],vl:['Vasto lateral',[['Th',.3,.97,10,3]]],vm:['Vasto medial',[['Th',.55,.98,9,8]]],
+bfe:['Bíceps femoral',[['Th',.15,.92,8,-8]]],sem:['Semitendinoso / semimembranoso',[['Th',.15,.85,8,-4]]],
+gem:['Gemelos',[['Sh',.05,.55,11,-4]]],sol:['Sóleo',[['Sh',.35,.85,8,-2]]]};
 
 const cu=[[180,0,0,0,0],[180,0,150,0,0]];
 const E={
@@ -179,12 +179,15 @@ const pose=(e,ph)=>[0,1,2,3,4,5].map(i=>{const p=e[5][i]??90,u=e[6][i]??90;retur
 function setup(e){const p=[0,1].flatMap(k=>{const f=fig(pose(e,k),e[3]);return f.S.flatMap(s=>[s[1][0]-f.ax,s[2][0]-f.ax])}),c=eq(cur.id).c;if(c)p.push(c[0],c[0]+c[2]*22);cur.ox=150-(Math.min(...p)+Math.max(...p))/2}
 
 const ink='currentColor';
-/* Estilo de dibujo anatómico refinado con sombreado de cross-hatching */
-const el=(cx,cy,rx,ry,r,c,fo,cl)=>{let d='';[-.6,-.2,.2,.6].forEach((y,idx)=>{const x=(rx*Math.sqrt(1-y*y)*.95).toFixed(1);const slant=idx%2==0?2:-2;d+=`M-${x} ${(y*ry).toFixed(1)}L${Number(x)+slant} ${(y*ry+4).toFixed(1)}`});
- return`<g transform="translate(${cx} ${cy}) rotate(${r})"${cl?` class="${cl}"`:''}><ellipse rx="${rx}" ry="${ry}" fill="${c}" fill-opacity="${fo}" stroke="${ink}" stroke-opacity="${c=='none'?.5:1}" stroke-width="1.2"/><path d="${d}" fill="none" stroke="${ink}" stroke-width=".45" opacity="${c=='none'?.25:.55}"/></g>`};
+/* Renderizado muscular estilo dibujo anatómico en huso continuo */
+const el=(cx,cy,rx,ry,r,c,fo,cl)=>{
+ const fillCol = c=='none' ? 'var(--skin)' : c;
+ const opac = c=='none' ? 0.4 : fo;
+ return`<g transform="translate(${cx} ${cy}) rotate(${r})"${cl?` class="${cl}"`:''}><path d="M-${rx} 0 Q0 -${ry*1.1} ${rx} 0 Q0 ${ry*1.1} -${rx} 0 Z" fill="${fillCol}" fill-opacity="${opac}" stroke="${ink}" stroke-width="1.3" stroke-linejoin="round"/><path d="M-${rx*0.5} 0 L${rx*0.5} 0" stroke="${ink}" stroke-width="0.5" opacity="0.35"/></g>`
+};
 
-const MF={pcs:[[46,58,11,5,-15]],pcm:[[46,67,12,5.5,-5]],pci:[[46,76,11,5,8]],da:[[37,57,5.5,8.5,10]],dl:[[31,60,5.5,10.5,12]],bl:[[25,78,3.5,12.5,8]],bc:[[29.5,78,3.5,12.5,8]],br:[[27,92,3.2,6.5,8]],bq:[[19,113,3.8,11.5,10]],af:[[23,121,3.8,14.5,10]],rec:[[54.5,90,5.2,4.8,0],[54.5,99,5.2,4.8,0],[54.5,108,5.2,4.8,0]],obl:[[45,100,4.8,13.5,8]],tva:[[56,114,7.2,3.2,0]],rf:[[51,165,4.8,22.5,2]],vl:[[44.5,170,4.8,22.5,4]],vm:[[53.5,188,4.2,11.5,-3]]};
-const MB={trm:[[54,58,10.5,9.5,25]],rom:[[53,71,6.5,7.5,-10]],dor:[[46,88,9.5,16.5,22]],ere:[[56,113,3.8,13.5,0]],gm:[[51,138,10.5,9.5,0]],dp:[[33,58,6.5,8.5,12]],dl:[[28,62,4.2,8.5,12]],tl:[[28,76,4.5,13.5,8]],tlt:[[24,80,3.8,12.5,8]],tm:[[30,90,3.5,7.5,8]],ae:[[20,118,4.2,14.5,10]],bfe:[[45,172,4.8,22.5,3]],sem:[[52,172,4.8,22.5,-2]],gem:[[43.5,228,4,12.5,0],[50.5,228,4,12.5,0]],sol:[[47,244,3.8,8.5,0]]};
+const MF={pcs:[[46,58,11,5.5,-15]],pcm:[[46,67,12,6,-5]],pci:[[46,76,11,5.5,8]],da:[[37,57,6,9,10]],dl:[[31,60,6,11,12]],bl:[[25,78,3.8,13,8]],bc:[[29.5,78,3.8,13,8]],br:[[27,92,3.5,7,8]],bq:[[19,113,4,12,10]],af:[[23,121,4,15,10]],rec:[[54.5,90,5.5,5,0],[54.5,99,5.5,5,0],[54.5,108,5.5,5,0]],obl:[[45,100,5,14,8]],tva:[[56,114,7.5,3.5,0]],rf:[[51,165,5,23,2]],vl:[[44.5,170,5,23,4]],vm:[[53.5,188,4.5,12,-3]]};
+const MB={trm:[[54,58,11,10,25]],rom:[[53,71,7,8,-10]],dor:[[46,88,10,17,22]],ere:[[56,113,4,14,0]],gm:[[51,138,11,10,0]],dp:[[33,58,7,9,12]],dl:[[28,62,4.5,9,12]],tl:[[28,76,4.8,14,8]],tlt:[[24,80,4,13,8]],tm:[[30,90,3.8,8,8]],ae:[[20,118,4.5,15,10]],bfe:[[45,172,5,23,3]],sem:[[52,172,5,23,-2]],gem:[[43.5,228,4.2,13,0],[50.5,228,4.2,13,0]],sol:[[47,244,4,9,0]]};
 
 function drawMap(){
  const [P1,P2]=E[cur.id][1].split(';').map(s=>(s||'').split(' ').filter(Boolean)),sel=cur.sel,
@@ -192,9 +195,9 @@ function drawMap(){
  view=(M,x0,lb,bk)=>{
   const A=cap(33,52,22,102,15,11)+cap(22,102,12,150,11,7)+cap(12,150,10,158,8,7)+cap(51,142,47,206,25,16)+cap(47,206,47,262,15,9)+'<ellipse cx="44" cy="271" rx="8" ry="4.5"/>'+[0,1,2,3].map(i=>{const c=i-1.5;return`<path fill="none" d="M${10+c*2} 158L${6+c*3.2} ${172-Math.abs(c)*2}"/>`}).join('')+'<path fill="none" d="M15 152L20 162"/>';
   let ms='';
-  Object.keys(M).forEach(id=>{const p=(P1||[]).includes(id),s=(P2||[]).includes(id),fo=sel?(id==sel?.9:(p||s?.2:0)):(p?.8:s?.65:0),c=p?'#ff3d6e':s?'#ffb02e':'none';
+  Object.keys(M).forEach(id=>{const p=(P1||[]).includes(id),s=(P2||[]).includes(id),fo=sel?(id==sel?.92:(p||s?.22:0)):(p?.85:s?.7:0),c=p?'#ff3d6e':s?'#ffb02e':'none';
    M[id].forEach(z=>ms+=el(z[0],z[1],z[2],z[3],z[4],c,fo,p&&(!sel||id==sel)?'pk':''))});
-  return`<g transform="translate(${x0} 0)"><g fill="transparent" stroke="${ink}" stroke-width="1.2" stroke-linejoin="round">${A}<g transform="translate(120 0) scale(-1 1)">${A}</g><path d="M34 48Q60 40 86 48L81 100Q77 118 75 122L81 144H39L45 122Q43 118 39 100Z"/><path d="M55 28h10v16H55z"/><ellipse cx="60" cy="17" rx="11" ry="14" fill="${bk?'var(--mu)':'transparent'}"/></g>${ms}<g transform="translate(120 0) scale(-1 1)">${ms}</g>${bk?[...Array(16)].map((_,i)=>`<circle cx="60" cy="${46+i*5.2}" r="1.1" fill="${ink}"/>`).join(''):''}<text x="60" y="290" text-anchor="middle" font-size="10" font-weight="700" fill="var(--mu)">${lb}</text></g>`};
+  return`<g transform="translate(${x0} 0)"><g fill="var(--skin)" stroke="${ink}" stroke-width="1.2" stroke-linejoin="round">${A}<g transform="translate(120 0) scale(-1 1)">${A}</g><path d="M34 48Q60 40 86 48L81 100Q77 118 75 122L81 144H39L45 122Q43 118 39 100Z" fill="var(--skin-sh)"/><path d="M55 28h10v16H55z" fill="var(--skin)"/><ellipse cx="60" cy="17" rx="11" ry="14" fill="${bk?'var(--mu)':'var(--skin)'}"/></g>${ms}<g transform="translate(120 0) scale(-1 1)">${ms}</g>${bk?[...Array(16)].map((_,i)=>`<circle cx="60" cy="${46+i*5.2}" r="1.1" fill="${ink}"/>`).join(''):''}<text x="60" y="290" text-anchor="middle" font-size="10" font-weight="700" fill="var(--mu)">${lb}</text></g>`};
  q('#mp').innerHTML=view(MF,0,'Frente',0)+view(MB,130,'Espalda',1);
 }
 
@@ -204,25 +207,47 @@ function draw(ts){
  T=p=>[+(p[0]-f.ax+ox).toFixed(1),+(p[1]+ty).toFixed(1)],
  ln=(p,r,w,c,o=1)=>`<line x1="${p[0]}" y1="${p[1]}" x2="${r[0]}" y2="${r[1]}" stroke="${c}" stroke-width="${w}" stroke-linecap="round" opacity="${o}"/>`,
  ci=(p,r,c)=>`<circle cx="${p[0]}" cy="${p[1]}" r="${r}" fill="${c}"/>`,
- tq=(p,r,w1,w2,c)=>{const dx=r[0]-p[0],dy=r[1]-p[1],l=Math.hypot(dx,dy)||1,x=-dy/l/2,y=dx/l/2,g=(b,w,s)=>(b[0]+x*w*s).toFixed(1)+' '+(b[1]+y*w*s).toFixed(1);return`<path d="M${g(p,w1,1)}L${g(r,w2,1)}L${g(r,w2,-1)}L${g(p,w1,-1)}Z" fill="${c}" stroke="${ink}" stroke-width="0.8"/>`+ci(p,w1/2,c)+ci(r,w2/2,c)},
+ /* Renderizado de cuerpo contorneado 3D orgánico con estructura humana */
+ tq=(p,r,w1,w2,c)=>{
+  const dx=r[0]-p[0],dy=r[1]-p[1],l=Math.hypot(dx,dy)||1,x=-dy/l/2,y=dx/l/2;
+  const g=(b,w,s)=>(b[0]+x*w*s).toFixed(1)+' '+(b[1]+y*w*s).toFixed(1);
+  const p1a=g(p,w1,1), p1b=g(p,w1,-1), r1a=g(r,w2,1), r1b=g(r,w2,-1);
+  return`<path d="M${p1a} Q${(Number(p1a.split(' ')[0])+Number(r1a.split(' ')[0]))/2} ${(Number(p1a.split(' ')[1])+Number(r1a.split(' ')[1]))/2} ${r1a} L${r1b} Q${(Number(p1b.split(' ')[0])+Number(r1b.split(' ')[0]))/2} ${(Number(p1b.split(' ')[1])+Number(r1b.split(' ')[1]))/2} ${p1b} Z" fill="${c}" stroke="${ink}" stroke-width="1.3" stroke-linejoin="round"/><path d="M${p[0]} ${p[1]} L${r[0]} ${r[1]}" stroke="${ink}" stroke-width="0.5" opacity="0.25"/>`;
+ },
  tp=(p,r,w1,w2,c)=>tq(p,r,w1+2,w2+2,ink)+tq(p,r,w1,w2,c),lo=(p,r,w,c)=>ln(p,r,w+1.8,ink)+ln(p,r,w,c),co=(p,r,c)=>ci(p,r+.9,ink)+ci(p,r,c),
  hs=f.W.map(([w,an])=>{const p=T(w),d=[Math.sin(an*R),Math.cos(an*R)];return{p,d,n:[-d[1],d[0]],F:[p[0]+d[0]*9,p[1]+d[1]*9]}}),hn=hs[0].F;
- let h='<line x1="10" y1="234" x2="290" y2="234" stroke="var(--ln)" stroke-width="2"/>',rope='';
- if(k.u){const m=t.includes('m');h+=`<rect x="${m?30:ox-10}" y="${234-k.u}" width="${m?240:36}" height="${k.u}" rx="2" fill="var(--mu)"/>`}
- if(k.c){const c=k.c,px=ox+c[0],py=234-c[1],cx=px+c[2]*14,top=Math.min(py-10,28),C=[px,py],rp=t.includes('r');
-  h+=`<rect x="${cx-4}" y="${top}" width="8" height="${234-top}" fill="var(--mu)"/><rect x="${c[2]>0?cx+4:cx-18}" y="${top+14}" width="14" height="${Math.min(110,220-top)}" fill="var(--ln)"/>`+ln([cx,py-2],C,5,'var(--mu)')+`<circle cx="${px}" cy="${py}" r="6" fill="var(--card)" stroke="${ink}" stroke-width="2"/>`;
-  const dx=px-hn[0],dy=py-hn[1],l=Math.hypot(dx,dy)||1,ux=dx/l,uy=dy/l,E2=rp?[hn[0]+ux*17,hn[1]+uy*17]:hn,b1=[hn[0]-uy*5,hn[1]+ux*5],b2=[hn[0]+uy*5,hn[1]-ux*5];
-  h+=ln(C,E2,2,ink);
-  if(rp)rope=ln(E2,b1,2.5,ink)+ln(E2,b2,2.5,ink)+co(b1,3.5,'var(--card)')+co(b2,3.5,'var(--card)')}
- const An=T(f.An),sd=Math.sin(a[4]*R),cd=Math.cos(a[4]*R);
- if(t.includes('p')){const c=[An[0]+sd*10,An[1]+cd*10];h+=ln(c,[c[0],234],5,'var(--mu)')+ln([c[0]+cd*28,c[1]-sd*28],[c[0]-cd*28,c[1]+sd*28],7,'var(--ln)')}
- if(/[bs]/.test(t)){const r_=a[0]*R,dx=Math.sin(r_),dy=Math.cos(r_),z=t.includes('f')?-21:21,nx=dy*z,ny=-dx*z,
-  p1=T([-dx*16+nx,-dy*16+ny]),p2=T([f.N[0]+dx*10+nx,f.N[1]+dy*10+ny]);
-  [.15,.85].forEach(w=>{const x=p1[0]+(p2[0]-p1[0])*w,y=p1[1]+(p2[1]-p1[1])*w;h+=ln([x,y],[x,234],4,'var(--mu)')});
-  h+=ln(p1,p2,10,'var(--ln)');
-  if(t.includes('s')){const s1=T([-14,17]),s2=T([46,17]);h+=ln([s1[0]+14,s1[1]],[s1[0]+14,234],4,'var(--mu)')+ln(s1,s2,10,'var(--ln)')}}
  
- const dr=z=>['Fo','Sh','Th','T','U','F'].forEach(g=>f.S.filter(s=>s[0]==g&&!!s[3]==z).forEach(s=>h+=tp(T(s[1]),T(s[2]),{T:[32,38],Th:[24,16],Sh:[16,10],U:[17,13],F:[12,8],Fo:[9,7]}[g][0],{T:[32,38],Th:[24,16],Sh:[16,10],U:[17,13],F:[12,8],Fo:[9,7]}[g][1],z?'var(--ln)':g=='T'?'var(--fig)':'var(--card)')));
+ let h='<line x1="10" y1="234" x2="290" y2="234" stroke="var(--ln)" stroke-width="2"/>',rope='';
+ 
+ /* Máquinas, Bancos y Pesas 3D Detallados */
+ if(k.u){
+  const m=t.includes('m');
+  h+=`<rect x="${m?30:ox-12}" y="${234-k.u}" width="${m?240:40}" height="${k.u}" rx="4" fill="var(--eq-dark)" stroke="${ink}" stroke-width="1.3"/><rect x="${m?34:ox-8}" y="${236-k.u}" width="${m?232:32}" height="${k.u-4}" rx="2" fill="var(--eq-metal)" opacity="0.3"/>`;
+ }
+ if(k.c){
+  const c=k.c,px=ox+c[0],py=234-c[1],cx=px+c[2]*14,top=Math.min(py-10,28),C=[px,py],rp=t.includes('r');
+  /* Estructura de polea 3D */
+  h+=`<rect x="${cx-6}" y="${top}" width="12" height="${234-top}" fill="var(--eq-dark)" stroke="${ink}" stroke-width="1.2"/><rect x="${c[2]>0?cx+6:cx-22}" y="${top+10}" width="16" height="${Math.min(110,220-top)}" rx="2" fill="var(--eq-metal)" stroke="${ink}" stroke-width="1.2"/>`;
+  for(let i=0;i<6;i++) h+=`<line x1="${c[2]>0?cx+6:cx-22}" y1="${top+20+i*14}" x2="${c[2]>0?cx+22:cx-6}" y2="${top+20+i*14}" stroke="${ink}" stroke-width="1"/>`;
+  h+=`<circle cx="${px}" cy="${py}" r="8" fill="var(--card)" stroke="${ink}" stroke-width="2"/><circle cx="${px}" cy="${py}" r="3" fill="var(--eq-dark)"/>`;
+  const dx=px-hn[0],dy=py-hn[1],l=Math.hypot(dx,dy)||1,ux=dx/l,uy=dy/l,E2=rp?[hn[0]+ux*17,hn[1]+uy*17]:hn,b1=[hn[0]-uy*5,hn[1]+ux*5],b2=[hn[0]+uy*5,hn[1]-ux*5];
+  h+=ln(C,E2,2.5,ink);
+  if(rp)rope=ln(E2,b1,3,ink)+ln(E2,b2,3,ink)+co(b1,4,'var(--card)')+co(b2,4,'var(--card)')
+ }
+ const An=T(f.An),sd=Math.sin(a[4]*R),cd=Math.cos(a[4]*R);
+ if(t.includes('p')){
+  const c=[An[0]+sd*10,An[1]+cd*10];
+  h+=ln(c,[c[0],234],6,'var(--eq-dark)')+ln([c[0]+cd*28,c[1]-sd*28],[c[0]-cd*28,c[1]+sd*28],8,'var(--eq-metal)')
+ }
+ if(/[bs]/.test(t)){
+  const r_=a[0]*R,dx=Math.sin(r_),dy=Math.cos(r_),z=t.includes('f')?-21:21,nx=dy*z,ny=-dx*z,
+  p1=T([-dx*16+nx,-dy*16+ny]),p2=T([f.N[0]+dx*10+nx,f.N[1]+dy*10+ny]);
+  [.15,.85].forEach(w=>{const x=p1[0]+(p2[0]-p1[0])*w,y=p1[1]+(p2[1]-p1[1])*w;h+=ln([x,y],[x,234],5,'var(--eq-dark)')});
+  h+=ln(p1,p2,12,'var(--eq-metal)');
+  if(t.includes('s')){const s1=T([-14,17]),s2=T([46,17]);h+=ln([s1[0]+14,s1[1]],[s1[0]+14,234],5,'var(--eq-dark)')+ln(s1,s2,12,'var(--eq-metal)')}
+ }
+ 
+ const dr=z=>['Fo','Sh','Th','T','U','F'].forEach(g=>f.S.filter(s=>s[0]==g&&!!s[3]==z).forEach(s=>h+=tp(T(s[1]),T(s[2]),{T:[32,38],Th:[24,16],Sh:[16,10],U:[17,13],F:[12,8],Fo:[9,7]}[g][0],{T:[32,38],Th:[24,16],Sh:[16,10],U:[17,13],F:[12,8],Fo:[9,7]}[g][1],z?'var(--skin-sh)':g=='T'?'var(--skin)':'var(--card)')));
  dr(true);dr(false);
 
  const [P1,P2]=e[1].split(';').map(s=>(s||'').split(' ').filter(Boolean)),sel=cur.sel,pu=.55+.3*Math.sin(ts/260),
@@ -231,7 +256,7 @@ function draw(ts){
    cx=(A[0]+dx*m-dy/l*d).toFixed(1),cy=(A[1]+dy*m+dx/l*d).toFixed(1);
    o+=el(cx,cy,(l*(t1-t0)/2).toFixed(1),th/2,(Math.atan2(dy,dx)/R).toFixed(1),c,fo,'')})});return o};
  Object.keys(MU).forEach(id=>h+=mz(id,'none',0));
- (P2||[]).forEach(id=>h+=mz(id,'#ffb02e',sel?(id==sel?.9:.12):.65,.9));
+ (P2||[]).forEach(id=>h+=mz(id,'#ffb02e',sel?(id==sel?.92:.12):.7,.9));
  (P1||[]).forEach(id=>h+=mz(id,'#ff3d6e',sel?(id==sel?.95:.12):pu,1));
  if(sel&&![...(P1||[]),...(P2||[])].includes(sel))h+=mz(sel,ink,.5);
 
@@ -240,18 +265,26 @@ function draw(ts){
  if(vw=='s')h+=co([hp[0]+fn[0]*2.5,hp[1]+fn[1]*2.5],10.5,'var(--card)')+co([hp[0]+fn[0]*11,hp[1]+fn[1]*11+1],2.6,'var(--card)');
  else if(vw=='f')h+=co([hp[0],hp[1]+2.5],10.5,'var(--card)')+ci([hp[0]-3.6,hp[1]+1],1.4,ink)+ci([hp[0]+3.6,hp[1]+1],1.4,ink);
 
+ /* Detalle de Mancuernas y Agarre 3D */
  hs.forEach(o=>{const{p,d,n,F}=o,pe=[p[0]+d[0]*8,p[1]+d[1]*8],wt=/w/i.test(t),gr=wt||!!k.c;
-  if(wt)h+=vw=='s'?co(F,t.includes('W')?11:9,'var(--mu)')+ci(F,2.5,'var(--card)'):`<rect x="${F[0]-14}" y="${F[1]-2}" width="28" height="4" fill="var(--mu)"/><rect x="${F[0]-15}" y="${F[1]-8}" width="6" height="16" rx="2" fill="var(--mu)"/><rect x="${F[0]+9}" y="${F[1]-8}" width="6" height="16" rx="2" fill="var(--mu)"/>`;
+  if(wt){
+   if(vw=='s'){
+    h+=`<rect x="${F[0]-14}" y="${F[1]-14}" width="28" height="28" rx="6" fill="var(--eq-dark)" stroke="${ink}" stroke-width="1.3"/><rect x="${F[0]-10}" y="${F[1]-10}" width="20" height="20" rx="4" fill="var(--eq-metal)" opacity="0.4"/><circle cx="${F[0]}" cy="${F[1]}" r="4" fill="var(--card)" stroke="${ink}"/>`;
+   } else {
+    h+=`<rect x="${F[0]-16}" y="${F[1]-3}" width="32" height="6" fill="var(--eq-metal)" stroke="${ink}" stroke-width="1"/><rect x="${F[0]-18}" y="${F[1]-10}" width="7" height="20" rx="2" fill="var(--eq-dark)" stroke="${ink}" stroke-width="1"/><rect x="${F[0]+11}" y="${F[1]-10}" width="7" height="20" rx="2" fill="var(--eq-dark)" stroke="${ink}" stroke-width="1"/>`;
+   }
+  }
   h+=tp(p,pe,10,9,'var(--card)');
   if(gr){h+=co(F,6.5,'var(--card)');
    for(const k of [-2.6,0,2.6])h+=ln([F[0]+d[0]*k-n[0]*4.2,F[1]+d[1]*k-n[1]*4.2],[F[0]+d[0]*k+n[0]*4.2,F[1]+d[1]*k+n[1]*4.2],.8,ink);
    h+=lo([F[0]-d[0]*3+n[0]*5,F[1]-d[1]*3+n[1]*5],[F[0]+d[0]*2.5+n[0]*1.5,F[1]+d[1]*2.5+n[1]*1.5],3.4,'var(--card)')}
   else{for(let i=0;i<4;i++){const c=i-1.5;h+=lo([pe[0]+n[0]*c*2.4,pe[1]+n[1]*c*2.4],[pe[0]+d[0]*(10-Math.abs(c))+n[0]*c*3.2,pe[1]+d[1]*(10-Math.abs(c))+n[1]*c*3.2],2.6,'var(--card)')}
-   h+=lo([p[0]+d[0]*2+n[0]*5,p[1]+d[1]*2+n[1]*5],[p[0]+d[0]*9+n[0]*8,p[1]+d[1]*9+n[1]*8],3.2,'var(--card)')}});
+   h+=lo([p[0]+d[0]*2+n[0]*5,p[1]+d[1]*2+n[1]*5],[p[0]+d[0]*9+n[0]*8,p[1]+d[1]*9+n[1]*8],3.2,'var(--card)')}
+ });
  h+=rope;if(t.includes('q'))h+=ci(An,7,'var(--mu)')+ci(An,2.5,'var(--card)');
  const sa=a[0]*R,kd=Math.round(Math.abs(a[3]-a[4])),kn=f.S.find(s=>s[0]=='Th'&&!s[3]);
  h+=`<line x1="${T([0,0])[0]}" y1="${T([0,0])[1]}" x2="${T([f.N[0]+Math.sin(sa)*30,f.N[1]+Math.cos(sa)*30])[0]}" y2="${T([f.N[0]+Math.sin(sa)*30,f.N[1]+Math.cos(sa)*30])[1]}" stroke="var(--ok)" stroke-width="1.8" stroke-dasharray="5 3" stroke-linecap="round"/>`;
- q('#ang').textContent=(a[0]>=265?'Espalda apoyada':a[0]>=200?'Respaldo a '+Math.round(270-a[0])+'°':a[0]>=150?'Tronco vertical':'Tronco inclinado')+(kd>12?' · Rodilla flexionada '+kd+'°':'')+' · Línea verde: columna neutra';
+ q('#ang').textContent=(a[0]>=265?'Espalda apoyada horizontal':a[0]>=200?'Respaldo a '+Math.round(270-a[0])+'°':a[0]>=150?'Tronco vertical':'Tronco inclinado')+(kd>12?' · Rodilla flexionada '+kd+'°':'')+' · Línea verde: columna neutra';
  q('#fg').innerHTML=h;
 }
 function loop(ts){if(!cur)return;if(!paused){PH=(1-Math.cos(ts/2600*2*Math.PI))/2;q('#sc').value=PH*100}draw(ts);raf=requestAnimationFrame(loop)}
